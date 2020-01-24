@@ -3,7 +3,7 @@ package app;
 import java.util.Locale;
 import java.util.Scanner;
 
-import tabuleiro.Posicao;
+import xadrez.Partida;
 
 public class Teste {
 
@@ -12,14 +12,12 @@ public class Teste {
 		Scanner sc= new Scanner(System.in);
 		
 		try {
-			Posicao pos=new Posicao(3,5);
-			System.out.println(pos);
+			Partida partida=new Partida();
 			
-			pos.setPosition(1, 8);
-			System.out.println(pos);
+			UI.printBoard(partida.getPieces());
 		}
 		catch(Throwable e){
-			System.out.println("error");
+			System.out.println("-----------------ERROR-----------------------");
 		}
 
 		sc.close();

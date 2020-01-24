@@ -3,11 +3,13 @@ package tabuleiro;
 public class Piece {
 	protected Posicao posicao;
 	private Board board;
-	
-	public Piece(Posicao posicao) {
-		this.posicao = posicao;
-		board=null;
+
+	public Piece(Board board) {
+		this.board = board;
+		posicao=null;
 	}
+
+
 
 	protected Board getBoard() {
 		return board;
