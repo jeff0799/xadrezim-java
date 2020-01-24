@@ -1,7 +1,6 @@
 package xadrez;
 
 import tabuleiro.Board;
-import tabuleiro.Posicao;
 import xadrez.tiposDePecas.Rei;
 import xadrez.tiposDePecas.Torre;
 
@@ -24,16 +23,23 @@ public class Partida {
 		
 		return mat;
 	}
+	private void ColocarPeca(ChessPiece piece,char col,int lin) {
+		if(col<'a' || col>'h' || lin<1 || lin>8) {
+			throw new ChessException("ei retardado, a posição nem existe aqui, como que vai ter uma peca nela?");
+		}
+		
+		board.placePiece(piece, new PosicaoXadrez(col,lin).toPosicao());
+	}
 	
 	private void initalSetup() {
 		//board.placePiece(null, new Posicao(0, 5));
-		board.placePiece(new Rei(board, Cor.BLACK), new Posicao(0, 4));
-		board.placePiece(new Rei(board, Cor.WHITE), new Posicao(7, 4));
+		ColocarPeca(new Rei(board, Cor.BLACK),'e',8);
+		ColocarPeca(new Rei(board, Cor.WHITE),'e',1);
 		
-		board.placePiece(new Torre(board, Cor.BLACK), new Posicao(0, 0));
-		board.placePiece(new Torre(board, Cor.BLACK), new Posicao(0, 7));
-		board.placePiece(new Torre(board, Cor.WHITE), new Posicao(7, 0));
-		board.placePiece(new Torre(board, Cor.WHITE), new Posicao(7, 7));
+		ColocarPeca(new Torre(board, Cor.BLACK), 'a',8 );
+		ColocarPeca(new Torre(board, Cor.BLACK), 'h',8);
+		ColocarPeca(new Torre(board, Cor.WHITE), 'a',1);
+		ColocarPeca(new Torre(board, Cor.WHITE), 'h',1);
 		
 	}
 }
