@@ -4,7 +4,7 @@ import tabuleiro.Board;
 import tabuleiro.Piece;
 
 public class ChessPiece extends Piece{
-	Cor cor;
+	private Cor cor;
 	//private int moveCounter;
 
 	public ChessPiece(Board board, Cor cor) {
@@ -12,5 +12,7 @@ public class ChessPiece extends Piece{
 		this.cor = cor;
 	}
 	
-	
+	public Cor getCor() {
+		return cor;
+	}
 }
