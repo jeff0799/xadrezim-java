@@ -23,4 +23,8 @@ public class UI {
 		}
 		System.out.print(' ');
 	}
+	
+	public static String legenda() {
+		return "P-peão\nB-bispo\nT-torre\nC-cavalo\nK-rei\nQ-rainha";
+	}
 }
