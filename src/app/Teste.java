@@ -3,6 +3,7 @@ package app;
 import java.util.Locale;
 import java.util.Scanner;
 
+import tabuleiro.BoardException;
 import xadrez.Partida;
 
 public class Teste {
@@ -16,11 +17,13 @@ public class Teste {
 			
 			UI.printBoard(partida.getPieces());
 		}
+		catch(BoardException e) {
+			System.out.println(e.getMessage());
+		}
 		catch(Throwable e){
 			System.out.println("-----------------ERROR-----------------------");
 		}
 
 		sc.close();
 	}
-
 }

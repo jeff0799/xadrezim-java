@@ -26,6 +26,7 @@ public class Partida {
 	}
 	
 	private void initalSetup() {
+		//board.placePiece(null, new Posicao(0, 5));
 		board.placePiece(new Rei(board, Cor.BLACK), new Posicao(0, 4));
 		board.placePiece(new Rei(board, Cor.WHITE), new Posicao(7, 4));
 		
