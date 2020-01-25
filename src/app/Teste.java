@@ -11,11 +11,11 @@ public class Teste {
 
 	public static void main(String[] args) {
 		Locale.setDefault(Locale.US);
-		Scanner sc= new Scanner(System.in);
+		Scanner sc= new Scanner(System.in);	
+		Partida partida=new Partida();
 		
-		try {
-			Partida partida=new Partida();
-			for(int i=0;i<3;i++) {
+		for(int i=0;i<3;i++) {
+			try {
 				UI.printBoard(partida.getPieces());
 				System.out.print("source:");
 				PosicaoXadrez source= UI.lerPosicaoXadrez(sc);
@@ -27,21 +27,23 @@ public class Teste {
 				
 				partida.fazerMovim(source, target);
 			}
-			/*for(int i=30;i<50;i++) {
-				System.out.printf("%d -- %c\n",i,i);
-			}*/
-			/*char c='a';
-			System.out.printf("%d",(int)c);  //ascii
-			*/
+			catch(BoardException e) {
+				//System.out.println(e.getMessage());
+				e.printStackTrace();
+				sc.nextLine();
+			}
+			catch(Throwable e){
+				System.out.println("-----------------ERROR-----------------------");
+				e.printStackTrace();
+				sc.nextLine();
+			}
 		}
-		catch(BoardException e) {
-			//System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
-		catch(Throwable e){
-			System.out.println("-----------------ERROR-----------------------");
-			e.printStackTrace();
-		}
+		/*for(int i=30;i<50;i++) {
+			System.out.printf("%d -- %c\n",i,i);
+		}*/
+		/*char c='a';
+		System.out.printf("%d",(int)c);  //ascii
+		*/
 
 		sc.close();
 	}

@@ -80,8 +80,8 @@ public class UI {
 		System.out.print(' ');
 	}
 	
-	public static String legenda() {
-		return "P-peão\nB-bispo\nT-torre\nC-cavalo\nK-rei\nQ-rainha";
+	public static void printLegenda() {
+		System.out.println("P-peão\nB-bispo\nT-torre\nC-cavalo\nK-rei\nQ-rainha");
 	}
 	
 	public static PosicaoXadrez lerPosicaoXadrez(Scanner sc) {
@@ -97,4 +97,10 @@ public class UI {
 		
 		return new PosicaoXadrez(col, lin);
 	}
+	
+	// https://stackoverflow.com/questions/2979383/java-clear-the-console
+	public static void clearScreen() {
+		System.out.print("\033[H\033[2J");
+		System.out.flush();
+		}
 }
