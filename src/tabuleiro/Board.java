@@ -47,12 +47,22 @@ public class Board {
 			throw new BoardException("espera ae, tu quer colocar uma peça nula? -100 respeito");
 		}
 
-		if(temPeca(posicao)) {
+		/*if(temPeca(posicao)) {
 			throw new BoardException("ocupado, já tem uma peca aqui");
-		}
+		}*/
 		
 		pecas[posicao.getLinha()][posicao.getColuna()]=piece;
 		piece.posicao=posicao;
+	}
+	public Piece removePiece(Posicao posicao) {
+		Piece p=piece(posicao);
+		if(p==null) {
+			return null;
+		}
+		p.posicao=null;
+		pecas[posicao.getLinha()][posicao.getColuna()]=null;
+		//return piece(posicao); //null
+		return p;
 	}
 	
 	public boolean posicaoExiste(int linha,int coluna) {

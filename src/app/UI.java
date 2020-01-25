@@ -1,7 +1,11 @@
 package app;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 import xadrez.ChessPiece;
 import xadrez.Cor;
+import xadrez.PosicaoXadrez;
 
 public class UI {
 	// https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
@@ -47,10 +51,12 @@ public class UI {
 		System.out.println("  a b c d e f g h");
 	}
 	
+	@SuppressWarnings("unused")
 	private static void printPiece(ChessPiece p) {
 		if(p==null)System.out.print('-');
 		else if (p.getCor() == Cor.WHITE) {
 			System.out.print(ANSI_WHITE + p + ANSI_RESET);
+			
 		}
 		else {
 			System.out.print(ANSI_YELLOW + p + ANSI_RESET);
@@ -59,7 +65,36 @@ public class UI {
 		System.out.print(' ');
 	}
 	
+	@SuppressWarnings("unused")
+	//para terminais em preto e branco
+	private static void printPiece2(ChessPiece p) {
+		if(p==null)System.out.print('-');
+		else if (p.getCor() == Cor.WHITE) {
+			System.out.print(p);
+			
+		}
+		else {
+			System.out.print(p);
+		}
+
+		System.out.print(' ');
+	}
+	
 	public static String legenda() {
 		return "P-peão\nB-bispo\nT-torre\nC-cavalo\nK-rei\nQ-rainha";
+	}
+	
+	public static PosicaoXadrez lerPosicaoXadrez(Scanner sc) {
+		
+		String p=sc.next();
+		char col=p.charAt(0);
+		int lin=p.charAt(1);
+		lin-='0';
+		
+		if(col<'a' || col>'h' || lin<1 || lin>8) {
+			throw new InputMismatchException("");
+		}
+		
+		return new PosicaoXadrez(col, lin);
 	}
 }

@@ -23,7 +23,7 @@ public class PosicaoXadrez {
 		return linha;
 	}
 	
-	protected Posicao toPosicao() {
+	public Posicao toPosicao() {
 		int row=8-linha;
 		int colunm=coluna-'a';
 		
@@ -39,7 +39,7 @@ public class PosicaoXadrez {
 
 	@Override
 	public String toString() {
-		return coluna+linha+"";
+		return ""+coluna+linha;
 	}
 	
 	
