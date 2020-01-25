@@ -57,6 +57,9 @@ public class Partida {
 		if(!board.temPeca(pos)) {
 			throw new ChessException("ué pivete, que peça?");
 		}
+		if(!board.piece(pos).temPossibleMove()) {
+			throw new ChessException("a peça não pode se mover");
+		}
 		/*if(currentPlayer!=board.piece(pos).cor) {
 			throw new ChessException("a peça não é sua");
 		}*/
