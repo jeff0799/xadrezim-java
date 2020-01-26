@@ -64,10 +64,16 @@ public class Partida {
 			throw new ChessException("a peça não é sua");
 		}*/
 	}
+	private void validateTargetPos(Posicao from,Posicao to) {
+		if(!board.piece(from).possibleMove(to)) {
+			throw new ChessException("essa peça não pode se mover para aí");
+		}
+	}
 	public ChessPiece fazerMovim(PosicaoXadrez source, PosicaoXadrez target) {
 		Posicao from=source.toPosicao();
 		Posicao to=target.toPosicao();
 		validateSourcePos(from);
+		validateTargetPos(from,to);
 		Piece capturedPiece=mover(from,to);
 		
 		return (ChessPiece) capturedPiece;

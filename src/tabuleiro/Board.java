@@ -79,4 +79,10 @@ public class Board {
 		 }
 		return piece(p)!=null;
 	}
+	public boolean temPeca(int l,int c) {
+		if(!posicaoExiste(l,c)){
+		 	throw new BoardException("ei retardado, a posição nem existe aqui, como que vai ter uma peca nela?");
+		 }
+		return piece(l,c)!=null;
+	}
 }
