@@ -66,9 +66,18 @@ public class Partida {
 	}
 	private void validateTargetPos(Posicao from,Posicao to) {
 		if(!board.piece(from).possibleMove(to)) {
-			throw new ChessException("essa peça não pode se mover para aí");
+			throw new ChessException("eu estou mostrando os movimentos possíveis,\n"
+					+ "como tu não entendeu que essa peça não pode se mover para aí,\n"
+					+ "não vai durar 1 min contra a Skynet");
 		}
 	}
+	
+	public boolean[][] possibleMoves(PosicaoXadrez source){
+		Posicao from=source.toPosicao();
+		validateSourcePos(from);
+		return board.piece(from).possibleMoves();
+	}
+	
 	public ChessPiece fazerMovim(PosicaoXadrez source, PosicaoXadrez target) {
 		Posicao from=source.toPosicao();
 		Posicao to=target.toPosicao();

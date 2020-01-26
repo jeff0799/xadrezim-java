@@ -32,6 +32,7 @@ public class UI {
 	public static final String ANSI_RESET = "\u001B[0m";
 	public static final String ANSI_YELLOW = "\u001B[33m";
 	public static final String ANSI_WHITE = "\u001B[37m";
+	public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
 	
 	/*
 	 abre o terminal do git na pasta bin
@@ -44,7 +45,19 @@ public class UI {
 			System.out.printf("%d ",8-i);
 			
 			for(int j=0;j<p[0].length;j++) {
-				printPiece(p[i][j]);
+				printPiece(p[i][j],false);
+			}
+			System.out.println();
+		}
+		System.out.println("  a b c d e f g h");
+	}
+	
+	public static void printBoard(ChessPiece[][] p,boolean[][] possibleMoves) {
+		for(int i = 0;i<p.length;i++) {
+			System.out.printf("%d ",8-i);
+			
+			for(int j=0;j<p[0].length;j++) {
+				printPiece(p[i][j],possibleMoves[i][j]);
 			}
 			System.out.println();
 		}
@@ -52,8 +65,11 @@ public class UI {
 	}
 	
 	@SuppressWarnings("unused")
-	private static void printPiece(ChessPiece p) {
-		if(p==null)System.out.print('-');
+	private static void printPiece(ChessPiece p,boolean fundo) {
+		if(fundo) {
+			System.out.print(ANSI_BLUE_BACKGROUND);
+		}
+		if(p==null)System.out.print('-'+ANSI_RESET);
 		else if (p.getCor() == Cor.WHITE) {
 			System.out.print(ANSI_WHITE + p + ANSI_RESET);
 			

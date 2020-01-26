@@ -22,6 +22,10 @@ public class Teste {
 				PosicaoXadrez source= UI.lerPosicaoXadrez(sc);
 				//System.out.println(source.toPosicao());
 				
+				boolean[][] possiveis=partida.possibleMoves(source);
+				UI.clearScreen();
+				UI.printBoard(partida.getPieces(),possiveis);
+				
 				System.out.print("target:");
 				PosicaoXadrez target= UI.lerPosicaoXadrez(sc);
 				//System.out.println(target.toPosicao());
