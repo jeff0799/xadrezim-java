@@ -14,13 +14,13 @@ public class Teste {
 		Scanner sc= new Scanner(System.in);	
 		Partida partida=new Partida();
 		
-		for(int i=0;i<3;i++) {
+		for(int i=0;i<4;i++) {
 			try {
 				UI.clearScreen();
 				UI.printBoard(partida.getPieces());
 				System.out.print("source:");
 				PosicaoXadrez source= UI.lerPosicaoXadrez(sc);
-				//System.out.println(source.toPosicao());
+				//System.out.println(source.toPosicao());sc.nextLine();sc.nextLine();
 				
 				boolean[][] possiveis=partida.possibleMoves(source);
 				UI.clearScreen();

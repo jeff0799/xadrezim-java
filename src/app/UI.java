@@ -83,7 +83,7 @@ public class UI {
 	
 	@SuppressWarnings("unused")
 	//para terminais em preto e branco
-	private static void printPiece2(ChessPiece p) {
+	private static void printPiece2(ChessPiece p,boolean b) {
 		if(p==null)System.out.print('-');
 		else if (p.getCor() == Cor.WHITE) {
 			System.out.print(p);
