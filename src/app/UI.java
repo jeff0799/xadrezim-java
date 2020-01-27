@@ -1,5 +1,6 @@
 package app;
 
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -97,9 +98,19 @@ public class UI {
 		System.out.print(' ');
 	}
 	
+	private static void printCaptured(Partida partida) {
+		System.out.println("pecas capturadas:");
+		System.out.print(ANSI_YELLOW);
+		System.out.println("black: "+Arrays.toString(partida.getCapturedBlack().toArray()));
+		System.out.print(ANSI_RESET+ANSI_WHITE);
+		System.out.println("white: "+Arrays.toString(partida.getCapturedWhite().toArray()));
+		System.out.print(ANSI_RESET);
+	}
+	
 	public static void printMatch(Partida partida) {
 		printBoard(partida.getPieces());
 		System.out.printf("turno:%d\njogador atual:%s\n",partida.getTurno(),partida.getCurrentPlayer());
+		printCaptured(partida);
 	}
 	
 	public static void printLegenda() {

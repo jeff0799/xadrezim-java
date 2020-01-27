@@ -1,5 +1,8 @@
 package xadrez;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import tabuleiro.Board;
 import tabuleiro.Piece;
 import tabuleiro.Posicao;
@@ -11,12 +14,28 @@ public class Partida {
 	private Cor currentPlayer;
 	private int turno;
 	
+	private List<ChessPiece> capturedWhite=new ArrayList<>();
+	private List<ChessPiece> capturedBlack=new ArrayList<>();
+	private List<ChessPiece> onBoard=new ArrayList<>();
+	
 	public Cor getCurrentPlayer() {
 		return currentPlayer;
 	}
 
 	public int getTurno() {
 		return turno;
+	}
+
+	public List<ChessPiece> getCapturedWhite() {
+		return capturedWhite;
+	}
+
+	public List<ChessPiece> getCapturedBlack() {
+		return capturedBlack;
+	}
+
+	public List<ChessPiece> getOnBoard() {
+		return onBoard;
 	}
 
 	public Partida() {
@@ -38,12 +57,14 @@ public class Partida {
 		
 		return mat;
 	}
+	
 	private void ColocarPeca(ChessPiece piece,char col,int lin) {
 		if(col<'a' || col>'h' || lin<1 || lin>8) {
 			throw new ChessException("ei retardado, a posição nem existe aqui, como que vai ter uma peca nela?");
 		}
 		
 		board.placePiece(piece, new PosicaoXadrez(col,lin).toPosicao());
+		onBoard.add(piece);
 	}
 	
 	private void initalSetup() {
@@ -60,8 +81,15 @@ public class Partida {
 	
 	private Piece mover(Posicao from, Posicao to) {
 		Piece piece =board.removePiece(from);
-		Piece captured=board.piece(to);
+		ChessPiece captured=(ChessPiece) board.piece(to);
 		board.placePiece(piece, to);
+		
+		if(captured.getCor()==Cor.BLACK) {
+			capturedBlack.add(captured);
+		}
+		else {
+			capturedWhite.add(captured);
+		}
 		
 		return captured;
 	}
