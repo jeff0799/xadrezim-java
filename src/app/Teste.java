@@ -1,5 +1,6 @@
 package app;
 
+import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -14,10 +15,10 @@ public class Teste {
 		Scanner sc= new Scanner(System.in);	
 		Partida partida=new Partida();
 		
-		for(int i=0;i<4;i++) {
+		while(true) {
 			try {
 				UI.clearScreen();
-				UI.printBoard(partida.getPieces());
+				UI.printMatch(partida);
 				System.out.print("source:");
 				PosicaoXadrez source= UI.lerPosicaoXadrez(sc);
 				//System.out.println(source.toPosicao());sc.nextLine();sc.nextLine();
@@ -38,6 +39,12 @@ public class Teste {
 				sc.nextLine();
 				sc.nextLine();
 			}
+			catch(InputMismatchException e){
+				
+				e.printStackTrace();
+				//sc.nextLine();sc.nextLine();
+				break;
+			}
 			catch(Throwable e){
 				System.out.println("-----------------ERROR-----------------------");
 				e.printStackTrace();
@@ -53,5 +60,6 @@ public class Teste {
 		*/
 
 		sc.close();
+		System.out.println("fechou");
 	}
 }

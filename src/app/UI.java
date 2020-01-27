@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import xadrez.ChessPiece;
 import xadrez.Cor;
+import xadrez.Partida;
 import xadrez.PosicaoXadrez;
 
 public class UI {
@@ -40,7 +41,7 @@ public class UI {
 	 java app/Teste
 	 */
 	
-	public static void printBoard(ChessPiece[][] p) {
+	private static void printBoard(ChessPiece[][] p) {
 		for(int i = 0;i<p.length;i++) {
 			System.out.printf("%d ",8-i);
 			
@@ -94,6 +95,11 @@ public class UI {
 		}
 
 		System.out.print(' ');
+	}
+	
+	public static void printMatch(Partida partida) {
+		printBoard(partida.getPieces());
+		System.out.printf("turno:%d\njogador atual:%s\n",partida.getTurno(),partida.getCurrentPlayer());
 	}
 	
 	public static void printLegenda() {

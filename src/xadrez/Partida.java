@@ -8,10 +8,22 @@ import xadrez.tiposDePecas.Torre;
 
 public class Partida {
 	private Board board;
-	//private Cor currentPlayer;
+	private Cor currentPlayer;
+	private int turno;
 	
+	public Cor getCurrentPlayer() {
+		return currentPlayer;
+	}
+
+	public int getTurno() {
+		return turno;
+	}
+
 	public Partida() {
 		board=new Board(8,8);
+		turno =1;
+		currentPlayer=Cor.WHITE;
+		
 		initalSetup();
 	}
 	
@@ -60,9 +72,10 @@ public class Partida {
 		if(!board.piece(pos).temPossibleMove()) {
 			throw new ChessException("a peça não pode se mover");
 		}
-		/*if(currentPlayer!=board.piece(pos).cor) {
+		ChessPiece piece=(ChessPiece) board.piece(pos);
+		if(currentPlayer!=piece.getCor()) {  //((ChessPiece)board.piece(pos)).getCor();
 			throw new ChessException("a peça não é sua");
-		}*/
+		}//*/
 	}
 	private void validateTargetPos(Posicao from,Posicao to) {
 		if(!board.piece(from).possibleMove(to)) {
@@ -84,7 +97,19 @@ public class Partida {
 		validateSourcePos(from);
 		validateTargetPos(from,to);
 		Piece capturedPiece=mover(from,to);
+		nextTurn();
 		
 		return (ChessPiece) capturedPiece;
+	}
+	
+	private void nextTurn() {
+		//currentPlayer=(currentPlayer==Cor.WHITE)? Cor.BLACK: Cor.WHITE;
+		turno++;
+		if(currentPlayer==Cor.WHITE) {
+			currentPlayer=Cor.BLACK;
+		}
+		else {
+			currentPlayer=Cor.WHITE;
+		}
 	}
 }
