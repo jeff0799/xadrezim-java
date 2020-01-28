@@ -19,6 +19,7 @@ public class Teste {
 			try {
 				UI.clearScreen();
 				UI.printMatch(partida);
+				//System.out.println("onBoard: "+Arrays.toString(partida.getOnBoard().toArray()));
 				System.out.print("source:");
 				PosicaoXadrez source= UI.lerPosicaoXadrez(sc);
 				//System.out.println(source.toPosicao());sc.nextLine();sc.nextLine();

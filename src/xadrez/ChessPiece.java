@@ -17,6 +17,10 @@ public abstract class ChessPiece extends Piece{
 		return cor;
 	}
 	
+	public PosicaoXadrez getPosicaoXadrez() {
+		return PosicaoXadrez.FromPosicao(posicao);
+	}
+	
 	protected boolean temInimigo(Posicao pos) {
 		ChessPiece piece=(ChessPiece) getBoard().piece(pos);
 		

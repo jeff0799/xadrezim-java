@@ -2,6 +2,7 @@ package xadrez;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import tabuleiro.Board;
 import tabuleiro.Piece;
@@ -13,6 +14,7 @@ public class Partida {
 	private Board board;
 	private Cor currentPlayer;
 	private int turno;
+	private boolean cheque=false;
 	
 	private List<ChessPiece> capturedWhite=new ArrayList<>();
 	private List<ChessPiece> capturedBlack=new ArrayList<>();
@@ -36,6 +38,10 @@ public class Partida {
 
 	public List<ChessPiece> getOnBoard() {
 		return onBoard;
+	}
+	
+	public boolean getCheque() {
+		return cheque;
 	}
 
 	public Partida() {
@@ -67,6 +73,32 @@ public class Partida {
 		onBoard.add(piece);
 	}
 	
+	private Cor oponente(Cor cor) {
+		return (cor==Cor.WHITE)?Cor.BLACK : Cor.WHITE;
+	}
+	
+	private ChessPiece rei(Cor cor) {
+		for(Piece p:onBoard) {
+			if(((ChessPiece)p).getCor()==cor && p instanceof Rei) {
+				return (ChessPiece) p;
+			}
+		}
+		
+		throw new ChessException("WTF, nao tem rei "+cor);
+	}
+	
+	private boolean emCheque(Cor cor) {
+		Posicao  posicaoRei=rei(cor).getPosicaoXadrez().toPosicao();
+		List<Piece> inimigos=onBoard.stream().filter(x->((ChessPiece)x).getCor()==oponente(cor)).collect(Collectors.toList());
+		
+		for(Piece p:inimigos) {
+			if(p.possibleMove(posicaoRei)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private void initalSetup() {
 		//board.placePiece(null, new Posicao(0, 5));
 		ColocarPeca(new Rei(board, Cor.BLACK),'e',8);
@@ -84,14 +116,34 @@ public class Partida {
 		ChessPiece captured=(ChessPiece) board.piece(to);
 		board.placePiece(piece, to);
 		
-		if(captured.getCor()==Cor.BLACK) {
-			capturedBlack.add(captured);
-		}
-		else {
-			capturedWhite.add(captured);
+		if (captured!= null) {
+			onBoard.remove(captured);
+			
+			if(captured.getCor()==Cor.BLACK) {
+				capturedBlack.add(captured);
+			}
+			else {
+				capturedWhite.add(captured);
+			}
 		}
 		
 		return captured;
+	}
+	private void undoMove(Posicao source,Posicao target, Piece captured) {
+		Piece piece =board.removePiece(target);
+		board.placePiece(piece, source);
+		
+		if(captured!=null) {
+			board.placePiece(captured, target);
+			ChessPiece cap=(ChessPiece)captured;
+			if(cap.getCor()==Cor.BLACK) {
+				capturedBlack.remove(cap);
+			}
+			else {
+				capturedWhite.remove(cap);
+			}
+			onBoard.add(cap);
+		}
 	}
 	private void validateSourcePos(Posicao pos) {
 		if(!board.temPeca(pos)) {
@@ -125,6 +177,14 @@ public class Partida {
 		validateSourcePos(from);
 		validateTargetPos(from,to);
 		Piece capturedPiece=mover(from,to);
+		
+		if(emCheque(currentPlayer)) {
+			undoMove(from, to, capturedPiece);
+			throw new ChessException("voce vai estar em cheque meu garoto");
+		}
+		
+		cheque=emCheque(oponente(currentPlayer));
+		
 		nextTurn();
 		
 		return (ChessPiece) capturedPiece;

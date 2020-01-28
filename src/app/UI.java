@@ -111,6 +111,10 @@ public class UI {
 		printBoard(partida.getPieces());
 		System.out.printf("turno:%d\njogador atual:%s\n",partida.getTurno(),partida.getCurrentPlayer());
 		printCaptured(partida);
+		
+		if(partida.getCheque()) {
+			System.out.println("VOCE ESTÁ EM CHEQUE");
+		}
 	}
 	
 	public static void printLegenda() {
