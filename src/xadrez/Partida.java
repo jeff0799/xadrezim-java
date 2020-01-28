@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import tabuleiro.Board;
 import tabuleiro.Piece;
 import tabuleiro.Posicao;
+import xadrez.tiposDePecas.Peao;
 import xadrez.tiposDePecas.Rei;
 import xadrez.tiposDePecas.Torre;
 
@@ -143,6 +144,14 @@ public class Partida {
 		ColocarPeca(new Torre(board, Cor.WHITE), 'a',1);
 		ColocarPeca(new Torre(board, Cor.WHITE), 'h',1);
 		
+		//ColocarPeca(new Peao(board, Cor.BLACK),'d',7);
+		//ColocarPeca(new Peao(board, Cor.WHITE),'c',2);
+		for(char col='a';col<='h';col++) {
+			ColocarPeca(new Peao(board, Cor.BLACK),col,7);
+		}
+		for(char col='a';col<='h';col++) {
+			ColocarPeca(new Peao(board, Cor.WHITE),col,2);
+		}//*/
 	}
 	
 	private Piece mover(Posicao from, Posicao to) {
