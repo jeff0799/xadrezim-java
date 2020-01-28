@@ -146,7 +146,7 @@ public class Partida {
 	}
 	
 	private Piece mover(Posicao from, Posicao to) {
-		Piece piece =board.removePiece(from);
+		ChessPiece piece =(ChessPiece) board.removePiece(from);
 		ChessPiece captured=(ChessPiece) board.piece(to);
 		board.placePiece(piece, to);
 		
@@ -160,11 +160,12 @@ public class Partida {
 				capturedWhite.add(captured);
 			}
 		}
+		piece.increaseCounter();
 		
 		return captured;
 	}
 	private void undoMove(Posicao source,Posicao target, Piece captured) {
-		Piece piece =board.removePiece(target);
+		ChessPiece piece =(ChessPiece) board.removePiece(target);
 		board.placePiece(piece, source);
 		
 		if(captured!=null) {
@@ -178,6 +179,7 @@ public class Partida {
 			}
 			onBoard.add(cap);
 		}
+		piece.decreaseCounter();
 	}
 	private void validateSourcePos(Posicao pos) {
 		if(!board.temPeca(pos)) {

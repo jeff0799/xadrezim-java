@@ -6,11 +6,15 @@ import tabuleiro.Posicao;
 
 public abstract class ChessPiece extends Piece{
 	private Cor cor;
-	//private int moveCounter;
+	private int moveCounter=0;
 
 	public ChessPiece(Board board, Cor cor) {
 		super(board);
 		this.cor = cor;
+	}
+	
+	public int getMoveCounter() {
+		return moveCounter;
 	}
 	
 	public Cor getCor() {
@@ -30,5 +34,12 @@ public abstract class ChessPiece extends Piece{
 		ChessPiece piece=(ChessPiece) getBoard().piece(l,c);
 		
 		return piece!=null && piece.cor!=cor;
+	}
+	
+	protected void increaseCounter() {
+		moveCounter++;
+	}
+	protected void decreaseCounter() {
+		moveCounter--;
 	}
 }
