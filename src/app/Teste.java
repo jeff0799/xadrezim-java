@@ -15,7 +15,7 @@ public class Teste {
 		Scanner sc= new Scanner(System.in);	
 		Partida partida=new Partida();
 		
-		while(true) {
+		while(!partida.getXequemate()) {
 			try {
 				UI.clearScreen();
 				UI.printMatch(partida);
@@ -53,12 +53,15 @@ public class Teste {
 				sc.nextLine();
 			}
 		}
+		
 		/*for(int i=30;i<50;i++) {
 			System.out.printf("%d -- %c\n",i,i);
 		}*/
 		/*char c='a';
 		System.out.printf("%d",(int)c);  //ascii
 		*/
+		System.out.println("XEQUEMATE\n"
+				+ "winner:"+partida.getCurrentPlayer());
 
 		sc.close();
 		System.out.println("fechou");

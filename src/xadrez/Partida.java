@@ -14,7 +14,8 @@ public class Partida {
 	private Board board;
 	private Cor currentPlayer;
 	private int turno;
-	private boolean cheque=false;
+	private boolean xeque=false;
+	private boolean xequemate=false;
 	
 	private List<ChessPiece> capturedWhite=new ArrayList<>();
 	private List<ChessPiece> capturedBlack=new ArrayList<>();
@@ -40,10 +41,15 @@ public class Partida {
 		return onBoard;
 	}
 	
-	public boolean getCheque() {
-		return cheque;
+	public boolean getXeque() {
+		return xeque;
+	}
+	
+	public boolean getXequemate() {
+		return xequemate;
 	}
 
+	
 	public Partida() {
 		board=new Board(8,8);
 		turno =1;
@@ -87,7 +93,7 @@ public class Partida {
 		throw new ChessException("WTF, nao tem rei "+cor);
 	}
 	
-	private boolean emCheque(Cor cor) {
+	private boolean emXeque(Cor cor) {
 		Posicao  posicaoRei=rei(cor).getPosicaoXadrez().toPosicao();
 		List<Piece> inimigos=onBoard.stream().filter(x->((ChessPiece)x).getCor()==oponente(cor)).collect(Collectors.toList());
 		
@@ -97,6 +103,34 @@ public class Partida {
 			}
 		}
 		return false;
+	}
+	
+	private boolean emXequemate(Cor cor) {
+		if(!emXeque(cor)) {
+			return false;
+		}
+		List<Piece> lista=onBoard.stream().filter(x->((ChessPiece)x).getCor()==cor).collect(Collectors.toList());
+		for(Piece p:lista) {
+			boolean[][] mat=p.possibleMoves();
+			for(int i=0;i<mat.length;i++) {
+				for(int j=0;j<mat[0].length;j++) {
+					if(mat[i][j]) {
+						Posicao source = ((ChessPiece)p).getPosicaoXadrez().toPosicao();
+						Posicao target = new Posicao(i, j);
+						
+						Piece cap=mover(source, target);
+						
+						boolean emXeque=emXeque(cor);
+						undoMove(source, target, cap);
+						if(!emXeque) {
+							return false;
+						}
+					}
+				}
+			}
+		}
+		
+		return true;
 	}
 	
 	private void initalSetup() {
@@ -178,14 +212,19 @@ public class Partida {
 		validateTargetPos(from,to);
 		Piece capturedPiece=mover(from,to);
 		
-		if(emCheque(currentPlayer)) {
+		if(emXeque(currentPlayer)) {
 			undoMove(from, to, capturedPiece);
 			throw new ChessException("voce vai estar em cheque meu garoto");
 		}
 		
-		cheque=emCheque(oponente(currentPlayer));
+		xeque=emXeque(oponente(currentPlayer));
 		
-		nextTurn();
+		if(emXequemate(oponente(currentPlayer))) {
+			xequemate=true;
+		}
+		else {
+			nextTurn();
+		}
 		
 		return (ChessPiece) capturedPiece;
 	}

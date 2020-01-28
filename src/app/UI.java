@@ -112,7 +112,7 @@ public class UI {
 		System.out.printf("turno:%d\njogador atual:%s\n",partida.getTurno(),partida.getCurrentPlayer());
 		printCaptured(partida);
 		
-		if(partida.getCheque()) {
+		if(partida.getXeque()) {
 			System.out.println("VOCE ESTÁ EM CHEQUE");
 		}
 	}
