@@ -7,7 +7,10 @@ import java.util.stream.Collectors;
 import tabuleiro.Board;
 import tabuleiro.Piece;
 import tabuleiro.Posicao;
+import xadrez.tiposDePecas.Bispo;
+import xadrez.tiposDePecas.Cavaleiro;
 import xadrez.tiposDePecas.Peao;
+import xadrez.tiposDePecas.RainhaBolada;
 import xadrez.tiposDePecas.Rei;
 import xadrez.tiposDePecas.Torre;
 
@@ -144,14 +147,27 @@ public class Partida {
 		ColocarPeca(new Torre(board, Cor.WHITE), 'a',1);
 		ColocarPeca(new Torre(board, Cor.WHITE), 'h',1);
 		
-		//ColocarPeca(new Peao(board, Cor.BLACK),'d',7);
-		//ColocarPeca(new Peao(board, Cor.WHITE),'c',2);
 		for(char col='a';col<='h';col++) {
 			ColocarPeca(new Peao(board, Cor.BLACK),col,7);
 		}
 		for(char col='a';col<='h';col++) {
 			ColocarPeca(new Peao(board, Cor.WHITE),col,2);
 		}//*/
+		
+		ColocarPeca(new Bispo(board, Cor.BLACK), 'c',8 );
+		ColocarPeca(new Bispo(board, Cor.BLACK), 'f',8 );
+		ColocarPeca(new Bispo(board, Cor.WHITE), 'c',1 );
+		ColocarPeca(new Bispo(board, Cor.WHITE), 'f',1 );
+		
+		ColocarPeca(new RainhaBolada(board, Cor.BLACK),'d',8);
+		ColocarPeca(new RainhaBolada(board, Cor.WHITE),'d',1);
+		//*/
+		
+		ColocarPeca(new Cavaleiro(board, Cor.BLACK), 'b',8 );
+		ColocarPeca(new Cavaleiro(board, Cor.BLACK), 'g',8 );
+		ColocarPeca(new Cavaleiro(board, Cor.WHITE), 'b',1 );
+		ColocarPeca(new Cavaleiro(board, Cor.WHITE), 'g',1 );
+		//*/
 	}
 	
 	private Piece mover(Posicao from, Posicao to) {
