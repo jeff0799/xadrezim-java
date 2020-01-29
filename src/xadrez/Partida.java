@@ -139,8 +139,8 @@ public class Partida {
 	
 	private void initalSetup() {
 		//board.placePiece(null, new Posicao(0, 5));
-		ColocarPeca(new Rei(board, Cor.BLACK),'e',8);
-		ColocarPeca(new Rei(board, Cor.WHITE),'e',1);
+		ColocarPeca(new Rei(board, Cor.BLACK, this),'e',8);
+		ColocarPeca(new Rei(board, Cor.WHITE, this),'e',1);
 		
 		ColocarPeca(new Torre(board, Cor.BLACK), 'a',8 );
 		ColocarPeca(new Torre(board, Cor.BLACK), 'h',8);
@@ -158,7 +158,7 @@ public class Partida {
 		ColocarPeca(new Bispo(board, Cor.BLACK), 'f',8 );
 		ColocarPeca(new Bispo(board, Cor.WHITE), 'c',1 );
 		ColocarPeca(new Bispo(board, Cor.WHITE), 'f',1 );
-		
+		//*/
 		ColocarPeca(new RainhaBolada(board, Cor.BLACK),'d',8);
 		ColocarPeca(new RainhaBolada(board, Cor.WHITE),'d',1);
 		//*/
@@ -187,6 +187,22 @@ public class Partida {
 		}
 		piece.increaseCounter();
 		
+		if(piece instanceof Rei) {
+			//Posicao posRei=piece.getPosicao();
+			//roque menor
+			if(to.getLinha() == from.getLinha() && to.getColuna()==from.getColuna()+2) {
+				Posicao fromT =new Posicao(to.getLinha(), to.getColuna()+1);
+				Posicao toT =new Posicao(to.getLinha(), to.getColuna()-1);
+				mover(fromT,toT);
+			}
+			//roque maior
+			if(to.getLinha() == from.getLinha() && to.getColuna()==from.getColuna()-2) {
+				Posicao fromT =new Posicao(to.getLinha(), to.getColuna()-2);
+				Posicao toT =new Posicao(to.getLinha(), to.getColuna()+1);
+				mover(fromT,toT);
+			}
+		}
+		
 		return captured;
 	}
 	private void undoMove(Posicao source,Posicao target, Piece captured) {
@@ -205,6 +221,22 @@ public class Partida {
 			onBoard.add(cap);
 		}
 		piece.decreaseCounter();
+		
+		if(piece instanceof Rei) {
+			//Posicao posRei=piece.getPosicao();
+			//roque menor
+			if(source.getLinha() == target.getLinha() && target.getColuna()==source.getColuna()+2) {
+				Posicao fromT =new Posicao(target.getLinha(), target.getColuna()+1);
+				Posicao toT =new Posicao(target.getLinha(), target.getColuna()-1);
+				undoMove(fromT,toT,null);
+			}
+			//roque maior
+			if(target.getLinha() == source.getLinha() && target.getColuna()==source.getColuna()-2) {
+				Posicao fromT =new Posicao(target.getLinha(), target.getColuna()-2);
+				Posicao toT =new Posicao(target.getLinha(), target.getColuna()+1);
+				undoMove(fromT,toT,null);
+			}
+		}
 	}
 	private void validateSourcePos(Posicao pos) {
 		if(!board.temPeca(pos)) {

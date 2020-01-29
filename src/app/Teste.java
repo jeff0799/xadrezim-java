@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.Scanner;
 
 import tabuleiro.BoardException;
+import tabuleiro.Posicao;
 import xadrez.Partida;
 import xadrez.PosicaoXadrez;
 
@@ -52,7 +53,7 @@ public class Teste {
 				sc.nextLine();
 				sc.nextLine();
 			}
-		}
+		}//*/
 		
 		/*for(int i=30;i<50;i++) {
 			System.out.printf("%d -- %c\n",i,i);
@@ -60,6 +61,10 @@ public class Teste {
 		/*char c='a';
 		System.out.printf("%d",(int)c);  //ascii
 		*/
+		/*Posicao p1=new Posicao(1, 1);
+		Posicao p2=new Posicao(1, 1);
+		System.out.println(p1==p2);//false*/
+		
 		System.out.println("XEQUEMATE\n"
 				+ "winner:"+partida.getCurrentPlayer());
 
