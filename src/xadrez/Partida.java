@@ -20,11 +20,16 @@ public class Partida {
 	private int turno;
 	private boolean xeque=false;
 	private boolean xequemate=false;
+	private ChessPiece enPasVulnerable;
 	
 	private List<ChessPiece> capturedWhite=new ArrayList<>();
 	private List<ChessPiece> capturedBlack=new ArrayList<>();
 	private List<ChessPiece> onBoard=new ArrayList<>();
 	
+	public ChessPiece getEnPasVulnerable() {
+		return enPasVulnerable;
+	}
+
 	public Cor getCurrentPlayer() {
 		return currentPlayer;
 	}
@@ -148,11 +153,12 @@ public class Partida {
 		ColocarPeca(new Torre(board, Cor.WHITE), 'h',1);
 		
 		for(char col='a';col<='h';col++) {
-			ColocarPeca(new Peao(board, Cor.BLACK),col,7);
+			ColocarPeca(new Peao(board, Cor.BLACK,this),col,7);
 		}
 		for(char col='a';col<='h';col++) {
-			ColocarPeca(new Peao(board, Cor.WHITE),col,2);
+			ColocarPeca(new Peao(board, Cor.WHITE,this),col,2);
 		}//*/
+		ColocarPeca(new Peao(board, Cor.BLACK,this),'b',4);
 		
 		ColocarPeca(new Bispo(board, Cor.BLACK), 'c',8 );
 		ColocarPeca(new Bispo(board, Cor.BLACK), 'f',8 );
@@ -162,7 +168,6 @@ public class Partida {
 		ColocarPeca(new RainhaBolada(board, Cor.BLACK),'d',8);
 		ColocarPeca(new RainhaBolada(board, Cor.WHITE),'d',1);
 		//*/
-		
 		ColocarPeca(new Cavaleiro(board, Cor.BLACK), 'b',8 );
 		ColocarPeca(new Cavaleiro(board, Cor.BLACK), 'g',8 );
 		ColocarPeca(new Cavaleiro(board, Cor.WHITE), 'b',1 );
@@ -202,6 +207,30 @@ public class Partida {
 				mover(fromT,toT);
 			}
 		}
+		//en passant
+		if(piece instanceof Peao) {
+			//int frente=(piece.getCor()==Cor.WHITE)? -1:1;
+			if(/*to.getLinha()==from.getLinha()+frente && */to.getColuna()==from.getColuna()+1 && captured==null) {
+				captured=(ChessPiece) board.removePiece(new Posicao(from.getLinha(), from.getColuna()+1));
+				onBoard.remove(captured);
+				if(captured.getCor()==Cor.WHITE) {
+					capturedWhite.add(captured);
+				}
+				else {
+					capturedBlack.add(captured);
+				}
+			}
+			else if(/*to.getLinha()==from.getLinha()+frente &&*/ to.getColuna()==from.getColuna()-1 && captured==null) {
+				captured=(ChessPiece) board.removePiece(new Posicao(from.getLinha(), from.getColuna()-1));
+				onBoard.remove(captured);
+				if(captured.getCor()==Cor.WHITE) {
+					capturedWhite.add(captured);
+				}
+				else {
+					capturedBlack.add(captured);
+				}
+			}
+		}
 		
 		return captured;
 	}
@@ -236,6 +265,12 @@ public class Partida {
 				Posicao toT =new Posicao(target.getLinha(), target.getColuna()+1);
 				undoMove(fromT,toT,null);
 			}
+		}
+		if(piece instanceof Peao && captured == enPasVulnerable) {
+			int frente=(piece.getCor()==Cor.WHITE)? -1:1;
+			//Piece passado=board.removePiece(target);
+			board.removePiece(target);
+			board.placePiece(captured, new Posicao(target.getLinha()+frente, target.getColuna()));
 		}
 	}
 	private void validateSourcePos(Posicao pos) {
@@ -283,6 +318,14 @@ public class Partida {
 		}
 		else {
 			nextTurn();
+		}
+		//en passant
+		ChessPiece movida=(ChessPiece) board.piece(to);
+		if(movida instanceof Peao && (to.getLinha()==from.getLinha()+2 || to.getLinha()==from.getLinha()-2)) {
+			enPasVulnerable=movida;
+		}
+		else {
+			enPasVulnerable=null;
 		}
 		
 		return (ChessPiece) capturedPiece;

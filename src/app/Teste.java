@@ -5,7 +5,6 @@ import java.util.Locale;
 import java.util.Scanner;
 
 import tabuleiro.BoardException;
-import tabuleiro.Posicao;
 import xadrez.Partida;
 import xadrez.PosicaoXadrez;
 
