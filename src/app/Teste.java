@@ -33,6 +33,13 @@ public class Teste {
 				//System.out.println(target.toPosicao());
 				
 				partida.fazerMovim(source, target);
+				
+				if(partida.getPromovido()!=null) {
+					System.out.print("quer promover o peãozim para que peca? (Q/C/B/T) ");
+					sc.nextLine();
+					String tipo=sc.nextLine();
+					partida.replacePromoted(tipo);
+				}
 			}
 			catch(BoardException e) {
 				//System.out.println(e.getMessage());

@@ -21,11 +21,16 @@ public class Partida {
 	private boolean xeque=false;
 	private boolean xequemate=false;
 	private ChessPiece enPasVulnerable;
+	private ChessPiece promovido;
 	
 	private List<ChessPiece> capturedWhite=new ArrayList<>();
 	private List<ChessPiece> capturedBlack=new ArrayList<>();
 	private List<ChessPiece> onBoard=new ArrayList<>();
 	
+	public ChessPiece getPromovido() {
+		return promovido;
+	}
+
 	public ChessPiece getEnPasVulnerable() {
 		return enPasVulnerable;
 	}
@@ -64,7 +69,12 @@ public class Partida {
 		turno =1;
 		currentPlayer=Cor.WHITE;
 		
-		initalSetup();
+		//initalSetup();
+		ColocarPeca(new Peao(board, Cor.BLACK, this),'a',2);
+		ColocarPeca(new Peao(board, Cor.WHITE, this),'b',7);
+		ColocarPeca(new Rei(board, Cor.BLACK, this),'e',7);
+		ColocarPeca(new Rei(board, Cor.WHITE, this),'e',2);
+		
 	}
 	
 	public ChessPiece[][] getPieces(){
@@ -158,8 +168,7 @@ public class Partida {
 		for(char col='a';col<='h';col++) {
 			ColocarPeca(new Peao(board, Cor.WHITE,this),col,2);
 		}//*/
-		ColocarPeca(new Peao(board, Cor.BLACK,this),'b',4);
-		
+				
 		ColocarPeca(new Bispo(board, Cor.BLACK), 'c',8 );
 		ColocarPeca(new Bispo(board, Cor.BLACK), 'f',8 );
 		ColocarPeca(new Bispo(board, Cor.WHITE), 'c',1 );
@@ -305,6 +314,15 @@ public class Partida {
 		validateSourcePos(from);
 		validateTargetPos(from,to);
 		Piece capturedPiece=mover(from,to);
+		ChessPiece movida=(ChessPiece) board.piece(to);
+		
+		//promocao
+		promovido=null;
+		int endLine=(movida.getCor()==Cor.BLACK) ? 1 : 8;
+		if(movida instanceof Peao && movida.getPosicaoXadrez().getLinha()==endLine) {
+			promovido=movida;
+			promovido=replacePromoted("Q");
+		}
 		
 		if(emXeque(currentPlayer)) {
 			undoMove(from, to, capturedPiece);
@@ -320,7 +338,7 @@ public class Partida {
 			nextTurn();
 		}
 		//en passant
-		ChessPiece movida=(ChessPiece) board.piece(to);
+		
 		if(movida instanceof Peao && (to.getLinha()==from.getLinha()+2 || to.getLinha()==from.getLinha()-2)) {
 			enPasVulnerable=movida;
 		}
@@ -340,5 +358,26 @@ public class Partida {
 		else {
 			currentPlayer=Cor.WHITE;
 		}
+	}
+	public ChessPiece replacePromoted(String tipo) {
+		if(promovido==null) {
+			throw new ChessException("promover quem?");
+		}
+		Posicao pos=promovido.getPosicao();
+		Cor cor=promovido.getCor();
+		ChessPiece nova;
+		onBoard.remove(promovido);
+		
+		if(tipo.equals("Q")) nova=new RainhaBolada(board, cor);
+		else if(tipo.equals("C")) nova=new Cavaleiro(board, cor);
+		else if(tipo.equals("B")) nova=new Bispo(board, cor);
+		else if(tipo.equals("T")) nova=new Torre(board, cor);
+		else if(tipo.equals("K")) throw new ChessException("tu quer 2 reis eim, muito engracado");
+		else throw new ChessException("ei jegue, é só digitar o simbolo da peça");
+		
+		board.placePiece(nova, pos);
+		onBoard.add(nova);
+		
+		return nova;
 	}
 }
