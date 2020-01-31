@@ -69,11 +69,12 @@ public class Partida {
 		turno =1;
 		currentPlayer=Cor.WHITE;
 		
-		//initalSetup();
-		ColocarPeca(new Peao(board, Cor.BLACK, this),'a',2);
+		initalSetup();
+		/*ColocarPeca(new Peao(board, Cor.BLACK, this),'a',2);
 		ColocarPeca(new Peao(board, Cor.WHITE, this),'b',7);
 		ColocarPeca(new Rei(board, Cor.BLACK, this),'e',7);
 		ColocarPeca(new Rei(board, Cor.WHITE, this),'e',2);
+		//*/
 		
 	}
 	

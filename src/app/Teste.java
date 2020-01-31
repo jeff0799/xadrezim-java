@@ -14,6 +14,9 @@ public class Teste {
 		Locale.setDefault(Locale.US);
 		Scanner sc= new Scanner(System.in);	
 		Partida partida=new Partida();
+		//System.out.println("digite 'L' e outro numero qualquer para ver a legenda");
+		UI.printLegenda();
+		sc.nextLine();
 		
 		while(!partida.getXequemate()) {
 			try {

@@ -127,9 +127,12 @@ public class UI {
 		char col=p.charAt(0);
 		int lin=p.charAt(1);
 		lin-='0';
-		
-		if(col<'a' || col>'h' || lin<1 || lin>8) {
+		if(col=='L') {
+			printLegenda();
 			throw new InputMismatchException("");
+		}
+		if(col<'a' || col>'h' || lin<1 || lin>8) {
+			throw new InputMismatchException("posicao não existe");
 		}
 		
 		return new PosicaoXadrez(col, lin);
